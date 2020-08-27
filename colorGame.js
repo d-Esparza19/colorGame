@@ -11,6 +11,8 @@ var squares = document.querySelectorAll(".square");
 var pickedColor = colors[3];
 // select the span in the title
 var colorDisplay = document.getElementById("colorDisplay");
+// select the message ID
+var messageDisplay =document.querySelector("#message");
 
 colorDisplay.textContent = pickedColor;
 
@@ -25,10 +27,19 @@ for(var i=0; i < squares.length; i++){
         var clickedColor = this.style.backgroundColor;
         //compare to winning color
         if(clickedColor == pickedColor){
-            alert("correct");
+            messageDisplay.textContent = "Correct!"
+            changeColors(clickedColor);
         }else{
-            alert("Wrong");
+            this.style.backgroundColor = "#232323";
+            messageDisplay.textContent = "Try Again!"
         }
     });
 }
 
+function changeColors(color){
+    //loop through squares
+    for(var i = 0; i < squares.length; i++){
+    //assign colors
+        squares[i].style.backgroundColor = color;
+    }
+}
