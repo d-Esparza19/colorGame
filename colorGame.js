@@ -1,11 +1,11 @@
-// Select all display squares
-var squares = document.querySelectorAll(".square");
 //difficulty selector
 var numSquares = 6;
 // Generate the colors
-var colors = generateRandomColors(numSquares);
+var colors = [];
 // Assign the game winning color
-var pickedColor = pickColor();
+var pickedColor;
+// Select all display squares
+var squares = document.querySelectorAll(".square");
 // select the span in the title
 var colorDisplay = document.getElementById("colorDisplay");
 // select the message ID
@@ -19,47 +19,50 @@ var easyBtn = document.querySelector("#easyBtn");
 var hardBtn = document.querySelector("#hardBtn");
 var modeButtons = document.querySelectorAll(".mode");
 
-for(var i = 0; i < modeButtons.length; i++){
+init();
+
+function init(){
+    //Add mode button listeners
+    for(var i = 0; i < modeButtons.length; i++){
     
-    modeButtons[i].addEventListener("click", function(){
-        //Remove selected highlighting from both
-        modeButtons[0].classList.remove("selected");
-        modeButtons[1].classList.remove("selected");
-        //add the highlight to the correct button
-        this.classList.add("selected");
-        // set difficulty logic for populating squares
-        this.textContent === "Easy" ? numSquares = 3: numSquares = 6;
-        reset();
-    })
+        modeButtons[i].addEventListener("click", function(){
+            //Remove selected highlighting from both
+            modeButtons[0].classList.remove("selected");
+            modeButtons[1].classList.remove("selected");
+            //add the highlight to the correct button
+            this.classList.add("selected");
+            // set difficulty logic for populating squares
+            this.textContent === "Easy" ? numSquares = 3: numSquares = 6;
+            reset();
+        })
+    }
+    //Square logic and behavior
+    for(var i=0; i < squares.length; i++){
+        //add listeners to squares
+        squares[i].addEventListener("click",function(){
+            //obtain color
+            var clickedColor = this.style.backgroundColor;
+            //compare to winning color
+            if(clickedColor == pickedColor){
+                messageDisplay.textContent = "Correct!"
+                resetButton.textContent = "Play Again?";
+                changeColors(clickedColor);
+                h1.style.backgroundColor = clickedColor;
+            }else{
+                this.style.backgroundColor = "#232323";
+                messageDisplay.textContent = "Try Again!"
+            }
+        });
+    }
+
+    reset();
 }
+
+
 
 resetButton.addEventListener("click", function(){
    reset();
 })
-
-colorDisplay.textContent = pickedColor;
-
-for(var i=0; i < squares.length; i++){
-
-    // add colors to squares
-    squares[i].style.backgroundColor = colors[i];
-
-    //add listeners to squares
-    squares[i].addEventListener("click",function(){
-        //obtain color
-        var clickedColor = this.style.backgroundColor;
-        //compare to winning color
-        if(clickedColor == pickedColor){
-            messageDisplay.textContent = "Correct!"
-            resetButton.textContent = "Play Again?";
-            changeColors(clickedColor);
-            h1.style.backgroundColor = clickedColor;
-        }else{
-            this.style.backgroundColor = "#232323";
-            messageDisplay.textContent = "Try Again!"
-        }
-    });
-}
 
 function reset(){
     // Refactored the button activities so both can call them here
