@@ -1,7 +1,9 @@
-var colors = generateRandomColors(numSquares);
-
 // Select all display squares
 var squares = document.querySelectorAll(".square");
+//difficulty selector
+var numSquares = 6;
+// Generate the colors
+var colors = generateRandomColors(numSquares);
 // Assign the game winning color
 var pickedColor = pickColor();
 // select the span in the title
@@ -15,8 +17,7 @@ var resetButton = document.querySelector("#reset");
 //select difficulty buttons
 var easyBtn = document.querySelector("#easyBtn");
 var hardBtn = document.querySelector("#hardBtn");
-//difficulty selector
-var numSquares = 6;
+
 
 easyBtn.addEventListener("click", function(){
     hardBtn.classList.remove("selected");
@@ -61,6 +62,10 @@ resetButton.addEventListener("click", function(){
         squares[i].style.backgroundColor = colors[i];
     }
     h1.style.backgroundColor = "steelblue";
+    //reset victory / try again text
+    messageDisplay.textContent = "";
+    // Change try again / new game button
+    this.textContent = "New Colors";
 })
 
 colorDisplay.textContent = pickedColor;
